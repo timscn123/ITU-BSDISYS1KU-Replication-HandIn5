@@ -3,9 +3,9 @@
 
 Design thoughts:
 
-- Use leader-less replication to avoid an overcomplicated system:
+- Use leader-based replication to avoid an overcomplicated system:
   
-It's just as good as leaderbased for our purpose and is actually better at keeping track of multiple bets submitted at the same time. one leader vs multiple nodes receiving the same bids at different times
+It's just as good as leader-less for our purpose and is actually better at keeping track of multiple bets submitted at the same time. one leader vs multiple nodes receiving the same bids at different times
 
 
 - Make a "heartbeat" signal that keeps sending messages between all nodes on a time interval:
