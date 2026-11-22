@@ -23,8 +23,7 @@ const (
 
 type BidRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Bidder        string                 `protobuf:"bytes,1,opt,name=bidder,proto3" json:"bidder,omitempty"`
-	Amount        int32                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount        int32                  `protobuf:"varint,1,opt,name=amount,proto3" json:"amount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -57,13 +56,6 @@ func (x *BidRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use BidRequest.ProtoReflect.Descriptor instead.
 func (*BidRequest) Descriptor() ([]byte, []int) {
 	return file_grpc_grpc_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *BidRequest) GetBidder() string {
-	if x != nil {
-		return x.Bidder
-	}
-	return ""
 }
 
 func (x *BidRequest) GetAmount() int32 {
@@ -156,8 +148,7 @@ func (*ResultRequest) Descriptor() ([]byte, []int) {
 type ResultResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Finished      bool                   `protobuf:"varint,1,opt,name=finished,proto3" json:"finished,omitempty"`
-	HighestBidder string                 `protobuf:"bytes,2,opt,name=highest_bidder,json=highestBidder,proto3" json:"highest_bidder,omitempty"`
-	HighestBid    int32                  `protobuf:"varint,3,opt,name=highest_bid,json=highestBid,proto3" json:"highest_bid,omitempty"`
+	HighestBid    int32                  `protobuf:"varint,2,opt,name=highest_bid,json=highestBid,proto3" json:"highest_bid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -199,13 +190,6 @@ func (x *ResultResponse) GetFinished() bool {
 	return false
 }
 
-func (x *ResultResponse) GetHighestBidder() string {
-	if x != nil {
-		return x.HighestBidder
-	}
-	return ""
-}
-
 func (x *ResultResponse) GetHighestBid() int32 {
 	if x != nil {
 		return x.HighestBid
@@ -215,8 +199,7 @@ func (x *ResultResponse) GetHighestBid() int32 {
 
 type ReplicateRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Bidder        string                 `protobuf:"bytes,1,opt,name=bidder,proto3" json:"bidder,omitempty"`
-	Amount        int32                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount        int32                  `protobuf:"varint,1,opt,name=amount,proto3" json:"amount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -249,13 +232,6 @@ func (x *ReplicateRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ReplicateRequest.ProtoReflect.Descriptor instead.
 func (*ReplicateRequest) Descriptor() ([]byte, []int) {
 	return file_grpc_grpc_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *ReplicateRequest) GetBidder() string {
-	if x != nil {
-		return x.Bidder
-	}
-	return ""
 }
 
 func (x *ReplicateRequest) GetAmount() int32 {
@@ -401,22 +377,19 @@ var File_grpc_grpc_proto protoreflect.FileDescriptor
 
 const file_grpc_grpc_proto_rawDesc = "" +
 	"\n" +
-	"\x0fgrpc/grpc.proto\x12\aauction\"<\n" +
+	"\x0fgrpc/grpc.proto\x12\aauction\"$\n" +
 	"\n" +
 	"BidRequest\x12\x16\n" +
-	"\x06bidder\x18\x01 \x01(\tR\x06bidder\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\x05R\x06amount\"%\n" +
+	"\x06amount\x18\x01 \x01(\x05R\x06amount\"%\n" +
 	"\vBidResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\"\x0f\n" +
-	"\rResultRequest\"t\n" +
+	"\rResultRequest\"M\n" +
 	"\x0eResultResponse\x12\x1a\n" +
-	"\bfinished\x18\x01 \x01(\bR\bfinished\x12%\n" +
-	"\x0ehighest_bidder\x18\x02 \x01(\tR\rhighestBidder\x12\x1f\n" +
-	"\vhighest_bid\x18\x03 \x01(\x05R\n" +
-	"highestBid\"B\n" +
+	"\bfinished\x18\x01 \x01(\bR\bfinished\x12\x1f\n" +
+	"\vhighest_bid\x18\x02 \x01(\x05R\n" +
+	"highestBid\"*\n" +
 	"\x10ReplicateRequest\x12\x16\n" +
-	"\x06bidder\x18\x01 \x01(\tR\x06bidder\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\x05R\x06amount\"*\n" +
+	"\x06amount\x18\x01 \x01(\x05R\x06amount\"*\n" +
 	"\x0eReplicateReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"+\n" +
 	"\x10HeartbeatRequest\x12\x17\n" +

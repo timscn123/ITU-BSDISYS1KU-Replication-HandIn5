@@ -80,7 +80,6 @@ func main() {
 				res, err := c.Bid(
 					ctx,
 					&pb.BidRequest{
-						Bidder: "daniel",
 						Amount: int32(amount),
 					},
 				)
@@ -108,9 +107,8 @@ func main() {
 					return err
 				}
 				fmt.Printf(
-					"Highest bid: %d\nWinner: %s\nEnded: %v\n",
+					"Highest bid: %d\nEnded: %v\n",
 					res.HighestBid,
-					res.HighestBidder,
 					res.Finished,
 				)
 				return nil

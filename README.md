@@ -15,3 +15,5 @@ This is to ensure they are still alive and to promote a backup to leader in case
 - Promote "algorithm" chooses highest rank node ID:
 
 We give/hardcode each node to have an ID. The leader is chosen based on the lowest ID on the available nodes in the system
+
+- API follows the spec exactly: `bid` takes only `amount`. A bid is accepted iff it is higher than the current highest bid, and when the timeframe has passed the "result" is simply the highest bid (the spec never requires identifying who bid).

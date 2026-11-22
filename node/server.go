@@ -82,10 +82,8 @@ func (s *Server) Bid(
 	}
 
 	prevBid := s.state.HighestBid
-	prevWinner := s.state.Winner
 
 	s.state.HighestBid = int64(req.Amount)
-	s.state.Winner = req.Bidder
 
 	live := s.monitor.LiveNodes()
 	required := len(live) / 2
@@ -113,7 +111,6 @@ func (s *Server) Bid(
 				ReplicateBid(
 					rctx,
 					&pb.ReplicateRequest{
-						Bidder: req.Bidder,
 						Amount: req.Amount,
 					},
 				)
@@ -133,7 +130,6 @@ func (s *Server) Bid(
 	}
 
 	s.state.HighestBid = prevBid
-	s.state.Winner = prevWinner
 
 	return &pb.BidResponse{
 		Status: "EXCEPTION",
@@ -159,9 +155,8 @@ func (s *Server) Result(
 		time.Now().After(s.state.EndTime)
 
 	return &pb.ResultResponse{
-		Finished:      ended,
-		HighestBidder: s.state.Winner,
-		HighestBid:    int32(s.state.HighestBid),
+		Finished:   ended,
+		HighestBid: int32(s.state.HighestBid),
 	}, nil
 }
 
@@ -174,9 +169,7 @@ func (s *Server) ReplicateBid(
 	defer s.state.mu.Unlock()
 
 	if int64(req.Amount) > s.state.HighestBid {
-
 		s.state.HighestBid = int64(req.Amount)
-		s.state.Winner = req.Bidder
 	}
 
 	return &pb.ReplicateReply{

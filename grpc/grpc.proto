@@ -5,8 +5,7 @@ package auction;
 option go_package = "auction/grpc";
 
 message BidRequest {
-  string bidder = 1;
-  int32 amount = 2;
+  int32 amount = 1;
 }
 
 message BidResponse {
@@ -17,13 +16,11 @@ message ResultRequest {}
 
 message ResultResponse {
   bool finished = 1;
-  string highest_bidder = 2;
-  int32 highest_bid = 3;
+  int32 highest_bid = 2;
 }
 
 message ReplicateRequest {
-  string bidder = 1;
-  int32 amount = 2;
+  int32 amount = 1;
 }
 
 message ReplicateReply {
