@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	pb "auction/grpc"
 
@@ -12,23 +13,56 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func main() {
+var nodes = []string{
+	"localhost:5001",
+	"localhost:5002",
+	"localhost:5003",
+}
 
-	conn, err := grpc.NewClient(
-		"localhost:5002",
-		grpc.WithTransportCredentials(
-			insecure.NewCredentials(),
-		),
-	)
+const callTimeout = 3 * time.Second
 
-	if err != nil {
-		panic(err)
+func withAnyNode(
+	fn func(ctx context.Context, c pb.AuctionServiceClient) error,
+) error {
+
+	var firstErr error
+
+	for _, addr := range nodes {
+
+		conn, err := grpc.NewClient(
+			addr,
+			grpc.WithTransportCredentials(
+				insecure.NewCredentials(),
+			),
+		)
+		if err != nil {
+			continue
+		}
+
+		ctx, cancel :=
+			context.WithTimeout(
+				context.Background(),
+				callTimeout,
+			)
+
+		err = fn(ctx, pb.NewAuctionServiceClient(conn))
+
+		cancel()
+		conn.Close()
+
+		if err == nil {
+			return nil
+		}
+
+		if firstErr == nil {
+			firstErr = err
+		}
 	}
 
-	defer conn.Close()
+	return firstErr
+}
 
-	client :=
-		pb.NewAuctionServiceClient(conn)
+func main() {
 
 	switch os.Args[1] {
 
@@ -41,37 +75,50 @@ func main() {
 				64,
 			)
 
-		res, err := client.Bid(
-			context.Background(),
-			&pb.BidRequest{
-				Bidder: "daniel",
-				Amount: int32(amount),
+		err := withAnyNode(
+			func(ctx context.Context, c pb.AuctionServiceClient) error {
+				res, err := c.Bid(
+					ctx,
+					&pb.BidRequest{
+						Bidder: "daniel",
+						Amount: int32(amount),
+					},
+				)
+				if err != nil {
+					return err
+				}
+				fmt.Println(res.Status)
+				return nil
 			},
 		)
 
 		if err != nil {
-			panic(err)
+			fmt.Println("EXCEPTION")
 		}
-
-		fmt.Println(res.Status)
 
 	case "result":
 
-		res, err :=
-			client.Result(
-				context.Background(),
-				&pb.ResultRequest{},
-			)
+		err := withAnyNode(
+			func(ctx context.Context, c pb.AuctionServiceClient) error {
+				res, err := c.Result(
+					ctx,
+					&pb.ResultRequest{},
+				)
+				if err != nil {
+					return err
+				}
+				fmt.Printf(
+					"Highest bid: %d\nWinner: %s\nEnded: %v\n",
+					res.HighestBid,
+					res.HighestBidder,
+					res.Finished,
+				)
+				return nil
+			},
+		)
 
 		if err != nil {
-			panic(err)
+			fmt.Println("EXCEPTION")
 		}
-
-		fmt.Printf(
-			"Highest bid: %d\nWinner: %s\nEnded: %v\n",
-			res.HighestBid,
-			res.HighestBidder,
-			res.Finished,
-		)
 	}
 }

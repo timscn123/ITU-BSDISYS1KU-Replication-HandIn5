@@ -43,17 +43,8 @@ func main() {
 	server := &Server{
 		state:   state,
 		myID:    id,
+		peers:   cluster,
 		monitor: monitor,
-	}
-
-	if id == 1 {
-
-		server.isPrimary = true
-
-		server.backups = []string{
-			"localhost:5002",
-			"localhost:5003",
-		}
 	}
 
 	lis, err := net.Listen(
