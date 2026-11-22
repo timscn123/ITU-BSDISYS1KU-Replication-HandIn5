@@ -290,7 +290,7 @@ const file_grpc_grpc_proto_rawDesc = "" +
 	"\x0eAuctionService\x12*\n" +
 	"\x03Bid\x12\x10.main.BidRequest\x1a\x11.main.BidResponse\x123\n" +
 	"\x06Result\x12\x13.main.ResultRequest\x1a\x14.main.ResultResponse\x12@\n" +
-	"\fReplicateBid\x12\x18.main.ReplicationMessage\x1a\x16.google.protobuf.EmptyB\bZ\x06./gRPCb\x06proto3"
+	"\fReplicateBid\x12\x18.main.ReplicationMessage\x1a\x16.google.protobuf.EmptyB\bZ\x06./grpcb\x06proto3"
 
 var (
 	file_grpc_grpc_proto_rawDescOnce sync.Once

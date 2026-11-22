@@ -4,7 +4,7 @@ import "google/protobuf/empty.proto";
 
 package main;
 
-option go_package = "./gRPC";
+option go_package = "./grpc";
 
 message BidRequest {
   string bidder = 1;
