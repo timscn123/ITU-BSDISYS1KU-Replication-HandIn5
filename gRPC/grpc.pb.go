@@ -7,13 +7,12 @@
 package gRPC
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -271,7 +270,7 @@ var File_grpc_grpc_proto protoreflect.FileDescriptor
 
 const file_grpc_grpc_proto_rawDesc = "" +
 	"\n" +
-	"\x0fgrpc/grpc.proto\x12\vReplication\x1a\x1bgoogle/protobuf/empty.proto\"<\n" +
+	"\x0fgrpc/grpc.proto\x12\x04main\x1a\x1bgoogle/protobuf/empty.proto\"<\n" +
 	"\n" +
 	"BidRequest\x12\x16\n" +
 	"\x06bidder\x18\x01 \x01(\tR\x06bidder\x12\x16\n" +
@@ -286,11 +285,11 @@ const file_grpc_grpc_proto_rawDesc = "" +
 	"highestBid\"D\n" +
 	"\x12ReplicationMessage\x12\x16\n" +
 	"\x06bidder\x18\x01 \x01(\tR\x06bidder\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\x05R\x06amount2\xd6\x01\n" +
-	"\x0eAuctionService\x128\n" +
-	"\x03Bid\x12\x17.Replication.BidRequest\x1a\x18.Replication.BidResponse\x12A\n" +
-	"\x06Result\x12\x1a.Replication.ResultRequest\x1a\x1b.Replication.ResultResponse\x12G\n" +
-	"\fReplicateBid\x12\x1f.Replication.ReplicationMessage\x1a\x16.google.protobuf.EmptyB\aZ\x05/gRPCb\x06proto3"
+	"\x06amount\x18\x02 \x01(\x05R\x06amount2\xb3\x01\n" +
+	"\x0eAuctionService\x12*\n" +
+	"\x03Bid\x12\x10.main.BidRequest\x1a\x11.main.BidResponse\x123\n" +
+	"\x06Result\x12\x13.main.ResultRequest\x1a\x14.main.ResultResponse\x12@\n" +
+	"\fReplicateBid\x12\x18.main.ReplicationMessage\x1a\x16.google.protobuf.EmptyB\bZ\x06./gRPCb\x06proto3"
 
 var (
 	file_grpc_grpc_proto_rawDescOnce sync.Once
@@ -306,20 +305,20 @@ func file_grpc_grpc_proto_rawDescGZIP() []byte {
 
 var file_grpc_grpc_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_grpc_grpc_proto_goTypes = []any{
-	(*BidRequest)(nil),         // 0: Replication.BidRequest
-	(*BidResponse)(nil),        // 1: Replication.BidResponse
-	(*ResultRequest)(nil),      // 2: Replication.ResultRequest
-	(*ResultResponse)(nil),     // 3: Replication.ResultResponse
-	(*ReplicationMessage)(nil), // 4: Replication.ReplicationMessage
+	(*BidRequest)(nil),         // 0: main.BidRequest
+	(*BidResponse)(nil),        // 1: main.BidResponse
+	(*ResultRequest)(nil),      // 2: main.ResultRequest
+	(*ResultResponse)(nil),     // 3: main.ResultResponse
+	(*ReplicationMessage)(nil), // 4: main.ReplicationMessage
 	(*emptypb.Empty)(nil),      // 5: google.protobuf.Empty
 }
 var file_grpc_grpc_proto_depIdxs = []int32{
-	0, // 0: Replication.AuctionService.Bid:input_type -> Replication.BidRequest
-	2, // 1: Replication.AuctionService.Result:input_type -> Replication.ResultRequest
-	4, // 2: Replication.AuctionService.ReplicateBid:input_type -> Replication.ReplicationMessage
-	1, // 3: Replication.AuctionService.Bid:output_type -> Replication.BidResponse
-	3, // 4: Replication.AuctionService.Result:output_type -> Replication.ResultResponse
-	5, // 5: Replication.AuctionService.ReplicateBid:output_type -> google.protobuf.Empty
+	0, // 0: main.AuctionService.Bid:input_type -> main.BidRequest
+	2, // 1: main.AuctionService.Result:input_type -> main.ResultRequest
+	4, // 2: main.AuctionService.ReplicateBid:input_type -> main.ReplicationMessage
+	1, // 3: main.AuctionService.Bid:output_type -> main.BidResponse
+	3, // 4: main.AuctionService.Result:output_type -> main.ResultResponse
+	5, // 5: main.AuctionService.ReplicateBid:output_type -> google.protobuf.Empty
 	3, // [3:6] is the sub-list for method output_type
 	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

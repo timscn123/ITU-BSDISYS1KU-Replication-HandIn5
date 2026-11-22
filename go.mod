@@ -1,4 +1,4 @@
-module MutualExclusion
+module Auction
 
 go 1.27.3
 

@@ -20,9 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuctionService_Bid_FullMethodName          = "/Replication.AuctionService/Bid"
-	AuctionService_Result_FullMethodName       = "/Replication.AuctionService/Result"
-	AuctionService_ReplicateBid_FullMethodName = "/Replication.AuctionService/ReplicateBid"
+	AuctionService_Bid_FullMethodName          = "/main.AuctionService/Bid"
+	AuctionService_Result_FullMethodName       = "/main.AuctionService/Result"
+	AuctionService_ReplicateBid_FullMethodName = "/main.AuctionService/ReplicateBid"
 )
 
 // AuctionServiceClient is the client API for AuctionService service.
@@ -177,7 +177,7 @@ func _AuctionService_ReplicateBid_Handler(srv interface{}, ctx context.Context, 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AuctionService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Replication.AuctionService",
+	ServiceName: "main.AuctionService",
 	HandlerType: (*AuctionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

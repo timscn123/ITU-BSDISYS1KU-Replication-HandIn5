@@ -9,9 +9,6 @@ import (
 	"time"
 )
 
-// rounds is how many times each node tries to enter the critical section.
-const rounds = 5
-
 // table hardcodes the demo topology: each node's id, its listen address, and
 // the peers it knows about. Adding a node is one more row here plus one more
 // entry in every other row's peer list.
@@ -58,20 +55,8 @@ func main() {
 	}
 	time.Sleep(300 * time.Millisecond) // let the servers finish binding
 
-	// 2) Start each node's workload: one goroutine per node, the simulated
-	//    "process" that keeps wanting the critical section.
-	done := make(chan struct{}, len(nodes))
-	for _, n := range nodes {
-		go func(n *Node) {
-			n.Workload(ctx, rounds)
-			done <- struct{}{}
-		}(n)
-	}
-	for range nodes {
-		<-done
-	}
+	<-ctx.Done()
 
-	// 3) Shut the servers down gracefully.
 	for _, n := range nodes {
 		n.Stop()
 	}

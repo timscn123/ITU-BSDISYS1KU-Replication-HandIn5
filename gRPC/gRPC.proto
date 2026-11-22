@@ -2,9 +2,9 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-package Replication;
+package main;
 
-option go_package = "/gRPC";
+option go_package = "./gRPC";
 
 message BidRequest {
   string bidder = 1;
