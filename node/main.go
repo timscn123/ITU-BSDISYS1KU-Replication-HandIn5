@@ -5,14 +5,34 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
 	"time"
 
 	"google.golang.org/grpc"
 )
 
+func nodeID(port string) int32 {
+	p, err := strconv.Atoi(port)
+	if err != nil {
+		log.Fatal("invalid port: ", port)
+	}
+	return int32(p - 5000)
+}
+
 func main() {
 
 	port := os.Args[1]
+
+	id := nodeID(port)
+
+	cluster := map[int32]string{
+		1: "localhost:5001",
+		2: "localhost:5002",
+		3: "localhost:5003",
+	}
+
+	monitor := NewMonitor(id, cluster)
+	monitor.Start()
 
 	state := &AuctionState{
 		EndTime: time.Now().Add(
@@ -21,10 +41,12 @@ func main() {
 	}
 
 	server := &Server{
-		state: state,
+		state:   state,
+		myID:    id,
+		monitor: monitor,
 	}
 
-	if port == "5001" {
+	if id == 1 {
 
 		server.isPrimary = true
 

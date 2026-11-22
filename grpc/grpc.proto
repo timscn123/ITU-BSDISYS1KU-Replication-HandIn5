@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auction;
 
-option go_package = "./grpc";
+option go_package = "auction/grpc";
 
 message BidRequest {
   string bidder = 1;
@@ -30,6 +30,14 @@ message ReplicateReply {
   bool success = 1;
 }
 
+message HeartbeatRequest {
+  int32 node_id = 1;
+}
+
+message HeartbeatReply {
+  int32 node_id = 1;
+}
+
 service AuctionService {
 
   rpc Bid(BidRequest)
@@ -40,4 +48,7 @@ service AuctionService {
 
   rpc ReplicateBid(ReplicateRequest)
       returns(ReplicateReply);
+
+  rpc Heartbeat(HeartbeatRequest)
+      returns(HeartbeatReply);
 }

@@ -17,6 +17,24 @@ type Server struct {
 	isPrimary bool
 
 	backups []string
+
+	myID int32
+
+	monitor *Monitor
+}
+
+func (s *Server) Heartbeat(
+	ctx context.Context,
+	req *pb.HeartbeatRequest,
+) (*pb.HeartbeatReply, error) {
+
+	if s.monitor != nil {
+		s.monitor.MarkAlive(req.NodeId)
+	}
+
+	return &pb.HeartbeatReply{
+		NodeId: s.myID,
+	}, nil
 }
 
 func (s *Server) Bid(
