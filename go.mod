@@ -1,4 +1,4 @@
-module Auction
+module auction
 
 go 1.27.3
 

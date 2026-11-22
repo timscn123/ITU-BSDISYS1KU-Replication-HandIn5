@@ -1,8 +1,6 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
-
-package main;
+package auction;
 
 option go_package = "./grpc";
 
@@ -23,9 +21,13 @@ message ResultResponse {
   int32 highest_bid = 3;
 }
 
-message ReplicationMessage {
+message ReplicateRequest {
   string bidder = 1;
   int32 amount = 2;
+}
+
+message ReplicateReply {
+  bool success = 1;
 }
 
 service AuctionService {
@@ -36,6 +38,6 @@ service AuctionService {
   rpc Result(ResultRequest)
       returns(ResultResponse);
 
-  rpc ReplicateBid(ReplicationMessage)
-      returns(google.protobuf.Empty);
+  rpc ReplicateBid(ReplicateRequest)
+      returns(ReplicateReply);
 }

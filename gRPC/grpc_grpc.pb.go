@@ -8,11 +8,9 @@ package grpc
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -21,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuctionService_Bid_FullMethodName          = "/main.AuctionService/Bid"
-	AuctionService_Result_FullMethodName       = "/main.AuctionService/Result"
-	AuctionService_ReplicateBid_FullMethodName = "/main.AuctionService/ReplicateBid"
+	AuctionService_Bid_FullMethodName          = "/auction.AuctionService/Bid"
+	AuctionService_Result_FullMethodName       = "/auction.AuctionService/Result"
+	AuctionService_ReplicateBid_FullMethodName = "/auction.AuctionService/ReplicateBid"
 )
 
 // AuctionServiceClient is the client API for AuctionService service.
@@ -32,7 +30,7 @@ const (
 type AuctionServiceClient interface {
 	Bid(ctx context.Context, in *BidRequest, opts ...grpc.CallOption) (*BidResponse, error)
 	Result(ctx context.Context, in *ResultRequest, opts ...grpc.CallOption) (*ResultResponse, error)
-	ReplicateBid(ctx context.Context, in *ReplicationMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ReplicateBid(ctx context.Context, in *ReplicateRequest, opts ...grpc.CallOption) (*ReplicateReply, error)
 }
 
 type auctionServiceClient struct {
@@ -63,9 +61,9 @@ func (c *auctionServiceClient) Result(ctx context.Context, in *ResultRequest, op
 	return out, nil
 }
 
-func (c *auctionServiceClient) ReplicateBid(ctx context.Context, in *ReplicationMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *auctionServiceClient) ReplicateBid(ctx context.Context, in *ReplicateRequest, opts ...grpc.CallOption) (*ReplicateReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(ReplicateReply)
 	err := c.cc.Invoke(ctx, AuctionService_ReplicateBid_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -79,7 +77,7 @@ func (c *auctionServiceClient) ReplicateBid(ctx context.Context, in *Replication
 type AuctionServiceServer interface {
 	Bid(context.Context, *BidRequest) (*BidResponse, error)
 	Result(context.Context, *ResultRequest) (*ResultResponse, error)
-	ReplicateBid(context.Context, *ReplicationMessage) (*emptypb.Empty, error)
+	ReplicateBid(context.Context, *ReplicateRequest) (*ReplicateReply, error)
 	mustEmbedUnimplementedAuctionServiceServer()
 }
 
@@ -96,7 +94,7 @@ func (UnimplementedAuctionServiceServer) Bid(context.Context, *BidRequest) (*Bid
 func (UnimplementedAuctionServiceServer) Result(context.Context, *ResultRequest) (*ResultResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Result not implemented")
 }
-func (UnimplementedAuctionServiceServer) ReplicateBid(context.Context, *ReplicationMessage) (*emptypb.Empty, error) {
+func (UnimplementedAuctionServiceServer) ReplicateBid(context.Context, *ReplicateRequest) (*ReplicateReply, error) {
 	return nil, status.Error(codes.Unimplemented, "method ReplicateBid not implemented")
 }
 func (UnimplementedAuctionServiceServer) mustEmbedUnimplementedAuctionServiceServer() {}
@@ -157,7 +155,7 @@ func _AuctionService_Result_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _AuctionService_ReplicateBid_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReplicationMessage)
+	in := new(ReplicateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -169,7 +167,7 @@ func _AuctionService_ReplicateBid_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: AuctionService_ReplicateBid_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuctionServiceServer).ReplicateBid(ctx, req.(*ReplicationMessage))
+		return srv.(AuctionServiceServer).ReplicateBid(ctx, req.(*ReplicateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -178,7 +176,7 @@ func _AuctionService_ReplicateBid_Handler(srv interface{}, ctx context.Context, 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AuctionService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "main.AuctionService",
+	ServiceName: "auction.AuctionService",
 	HandlerType: (*AuctionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
