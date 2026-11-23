@@ -3,12 +3,12 @@
 How to run:
 
 Open four terminals, one for each command.
-Paste these command in the root folder for the program:
+Paste these command in the root path for the program:
 
 - go run ./node 5001
 - go run ./node 5002
 - go run ./node 5003
-- go run ./client bid <<amount>>
+- go run ./client bid <<amount>amount>
 
 Auction starts when the first bid is registered.
 
