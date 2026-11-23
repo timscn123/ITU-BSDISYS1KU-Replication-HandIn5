@@ -69,6 +69,33 @@ func (s *Server) Bid(
 	s.state.mu.Lock()
 	defer s.state.mu.Unlock()
 
+	if !s.state.Started {
+		s.state.Started = true
+		s.state.EndTime = time.Now().Add(
+			100 * time.Second,
+		)
+
+		fmt.Println("Auction started")
+
+		go func(end time.Time) {
+			for {
+				remaining := time.Until(end)
+
+				if remaining <= 0 {
+					fmt.Println("Auction finished")
+					return
+				}
+
+				fmt.Printf(
+					"Time left: %.0f seconds\n",
+					remaining.Seconds(),
+				)
+
+				time.Sleep(10 * time.Second)
+			}
+		}(s.state.EndTime)
+	}
+
 	if time.Now().After(s.state.EndTime) {
 		return &pb.BidResponse{
 			Status: "FAIL",
@@ -111,7 +138,9 @@ func (s *Server) Bid(
 				ReplicateBid(
 					rctx,
 					&pb.ReplicateRequest{
-						Amount: req.Amount,
+						Amount:  req.Amount,
+						Started: s.state.Started,
+						EndTime: s.state.EndTime.Unix(),
 					},
 				)
 
@@ -151,8 +180,7 @@ func (s *Server) Result(
 	s.state.mu.Lock()
 	defer s.state.mu.Unlock()
 
-	ended :=
-		time.Now().After(s.state.EndTime)
+	ended := time.Now().After(s.state.EndTime)
 
 	return &pb.ResultResponse{
 		Finished:   ended,
@@ -167,6 +195,9 @@ func (s *Server) ReplicateBid(
 
 	s.state.mu.Lock()
 	defer s.state.mu.Unlock()
+
+	s.state.Started = req.Started
+	s.state.EndTime = time.Unix(req.EndTime, 0)
 
 	if int64(req.Amount) > s.state.HighestBid {
 		s.state.HighestBid = int64(req.Amount)

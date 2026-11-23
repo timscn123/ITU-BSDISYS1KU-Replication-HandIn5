@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auction;
 
-option go_package = "auction/grpc";
+option go_package = "./grpc";
 
 message BidRequest {
   int32 amount = 1;
@@ -21,6 +21,9 @@ message ResultResponse {
 
 message ReplicateRequest {
   int32 amount = 1;
+
+  bool started = 2;
+  int64 end_time = 3;
 }
 
 message ReplicateReply {

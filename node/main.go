@@ -6,7 +6,6 @@ import (
 	"net"
 	"os"
 	"strconv"
-	"time"
 
 	"google.golang.org/grpc"
 )
@@ -34,11 +33,7 @@ func main() {
 	monitor := NewMonitor(id, cluster)
 	monitor.Start()
 
-	state := &AuctionState{
-		EndTime: time.Now().Add(
-			100 * time.Second,
-		),
-	}
+	state := &AuctionState{}
 
 	server := &Server{
 		state:   state,
