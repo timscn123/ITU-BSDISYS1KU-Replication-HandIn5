@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package auction;
+
+option go_package = "./grpc";
+
+message BidRequest {
+  int32 amount = 1;
+}
+
+message BidResponse {
+  string status = 1;
+}
+
+message ResultRequest {}
+
+message ResultResponse {
+  bool finished = 1;
+  int32 highest_bid = 2;
+}
+
+message ReplicateRequest {
+  int32 amount = 1;
+
+  bool started = 2;
+  int64 end_time = 3;
+}
+
+message ReplicateReply {
+  bool success = 1;
+}
+
+message HeartbeatRequest {
+  int32 node_id = 1;
+}
+
+message HeartbeatReply {
+  int32 node_id = 1;
+}
+
+service AuctionService {
+
+  rpc Bid(BidRequest)
+      returns(BidResponse);
+
+  rpc Result(ResultRequest)
+      returns(ResultResponse);
+
+  rpc ReplicateBid(ReplicateRequest)
+      returns(ReplicateReply);
+
+  rpc Heartbeat(HeartbeatRequest)
+      returns(HeartbeatReply);
+}
